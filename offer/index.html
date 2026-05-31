@@ -550,7 +550,7 @@ Respond ONLY with a valid JSON object — no markdown, no code fences, no extra 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-5',
-          max_tokens: 800,
+          max_tokens: 1200,
           stream: false,
           messages: [{ role: 'user', content: prompt }]
         })
@@ -559,11 +559,16 @@ Respond ONLY with a valid JSON object — no markdown, no code fences, no extra 
       if (!response.ok) throw new Error('API error');
 
       const data = await response.json();
-      const raw = data.content?.[0]?.text || '';
+      let raw = data.content?.[0]?.text || '';
+
+      // Strip markdown code fences if Claude wraps the JSON
+      raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
+
       const result = JSON.parse(raw);
       renderResult(result);
 
     } catch (err) {
+      console.error('Offer engine error:', err);
       errorApi.classList.add('visible');
     }
 
