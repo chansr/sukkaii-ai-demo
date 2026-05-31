@@ -77,6 +77,7 @@
   .logo {
     height: 36px;
     width: auto;
+    mix-blend-mode: multiply;
   }
 
   .header-badge {
@@ -446,8 +447,8 @@
     <!-- HERO -->
     <div class="hero">
       <div class="hero-eyebrow">AI Product Copywriter</div>
-      <h1>Write <em>beautiful</em><br>wellness copy, instantly.</h1>
-      <p>Enter any wellness product and watch AI craft SEO-ready descriptions in English, Thai, or both — in your brand's voice.</p>
+      <h1>Write <em>beautiful</em><br>product copy, instantly.</h1>
+      <p>Enter any product and watch AI craft SEO-ready descriptions in English, Thai, or both — in your brand's voice.</p>
     </div>
 
     <!-- INPUT -->
@@ -470,15 +471,20 @@
 
       <!-- QUICK PICKS -->
       <div>
-        <div class="chips-label">Quick picks</div>
+        <div class="chips-label">Quick picks — or type your own</div>
         <div class="chips">
           <span class="chip" onclick="setProduct('Organic Moringa Powder')">Organic Moringa Powder</span>
-          <span class="chip" onclick="setProduct('Lion\'s Mane Mushroom Extract')">Lion's Mane Extract</span>
-          <span class="chip" onclick="setProduct('Cold-Pressed Rosehip Oil')">Cold-Pressed Rosehip Oil</span>
-          <span class="chip" onclick="setProduct('Fermented Black Garlic')">Fermented Black Garlic</span>
-          <span class="chip" onclick="setProduct('Ashwagandha Adaptogen Blend')">Ashwagandha Blend</span>
-          <span class="chip" onclick="setProduct('Raw Manuka Honey')">Raw Manuka Honey</span>
+          <span class="chip" onclick="setProduct('Vitamin C Brightening Serum')">Vitamin C Serum</span>
           <span class="chip" onclick="setProduct('Ceremonial Grade Matcha')">Ceremonial Matcha</span>
+          <span class="chip" onclick="setProduct('Collagen Peptides')">Collagen Peptides</span>
+          <span class="chip" onclick="setProduct('Lion\'s Mane Mushroom Extract')">Lion's Mane Extract</span>
+          <span class="chip" onclick="setProduct('Bamboo Charcoal Face Mask')">Bamboo Face Mask</span>
+          <span class="chip" onclick="setProduct('Cold-Pressed Rosehip Oil')">Rosehip Oil</span>
+          <span class="chip" onclick="setProduct('Probiotic Gut Health Blend')">Probiotic Blend</span>
+          <span class="chip" onclick="setProduct('Blue Light Blocking Glasses')">Blue Light Glasses</span>
+          <span class="chip" onclick="setProduct('Raw Manuka Honey')">Raw Manuka Honey</span>
+          <span class="chip" onclick="setProduct('Reusable Bamboo Cutlery Set')">Bamboo Cutlery Set</span>
+          <span class="chip" onclick="setProduct('Fermented Black Garlic')">Fermented Black Garlic</span>
         </div>
       </div>
 
@@ -578,16 +584,16 @@
       ? 'Write entirely in Thai (ภาษาไทย). All text including the headline and bullets must be in Thai.'
       : 'Write first in English, then add a Thai (ภาษาไทย) translation below separated by "—— Thai ——". Both versions must be complete.';
 
-    const prompt = `You are a premium wellness copywriter for Sukkaii — a sophisticated Thai wellness food and lifestyle brand. Write compelling e-commerce product copy for: "${product}".
+    const prompt = `You are a premium copywriter for Sukkaii — a sophisticated Thai lifestyle brand known for elegant, trustworthy product storytelling. Write compelling e-commerce product copy for: "${product}".
 
 ${langInstr}
 
 Structure:
 • A short, evocative headline (5–9 words, no punctuation)
-• Two focused paragraphs (2–3 sentences each): first covers benefits and science, second covers origin, quality, and lifestyle fit
-• Three bullet benefits, each starting with a tasteful botanical emoji and a bold keyword
+• Two focused paragraphs (2–3 sentences each): first covers what the product does and why it matters, second covers quality, origin or craft, and lifestyle fit
+• Three bullet benefits, each starting with a relevant emoji and a bold keyword
 
-Tone: Warm, aspirational, knowledgeable. Like a trusted wellness expert, not a salesperson. No hype, no exclamation marks. Elegant and trustworthy.
+Tone: Warm, aspirational, knowledgeable. Like a trusted expert, not a salesperson. No hype, no exclamation marks. Elegant and trustworthy. Adapt the tone naturally to suit the product category.
 
 Do not include any markdown formatting, headers, or labels. Output the copy directly.`;
 
