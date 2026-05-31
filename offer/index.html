@@ -140,6 +140,23 @@
   .chip:hover { border-color: var(--sage-mid); color: var(--sage); background: var(--sage-light); }
   .chip.selected { background: var(--sage); color: var(--white); border-color: var(--sage); }
 
+  /* ── NAME INPUT ── */
+  .name-input {
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: var(--radius);
+    padding: 0.85rem 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .name-input::placeholder { color: var(--ink-light); }
+  .name-input:focus { border-color: var(--sage-mid); }
+
   /* ── GENERATE BUTTON ── */
   .gen-btn {
     background: var(--sage);
@@ -352,6 +369,12 @@
   <!-- PROFILE FORM -->
   <div class="profile-form" id="profile-form">
 
+    <!-- Customer Name -->
+    <div class="field">
+      <div class="field-label">Customer Name <span style="color:var(--ink-light);font-size:0.7rem;letter-spacing:0;text-transform:none;font-weight:400;">(optional)</span></div>
+      <input class="name-input" id="customer-name" type="text" placeholder="e.g. Sarah" maxlength="40" />
+    </div>
+
     <!-- Order History -->
     <div class="field">
       <div class="field-label">Order History</div>
@@ -520,6 +543,9 @@
     btnText.textContent = 'Generating...';
     errorApi.classList.remove('visible');
 
+    const customerName = document.getElementById('customer-name').value.trim();
+    const nameNote = customerName ? `- Customer name: ${customerName} (use their name naturally in the message)` : '';
+
     const langNote = selections.lang === 'Thai'
       ? 'Write the customer message in Thai (ภาษาไทย). All other fields in English.'
       : 'Write everything in English.';
@@ -529,6 +555,7 @@
 - Order history: ${selections.history}
 - Last activity: ${selections.activity}
 - Primary interest: ${selections.interest}
+${nameNote}
 - Language: ${langNote}
 
 Respond ONLY with a valid JSON object — no markdown, no code fences, no extra text. Use exactly this structure:
