@@ -375,12 +375,13 @@
 
     <!-- Interest Category -->
     <div class="field">
-      <div class="field-label">Interest Category</div>
+      <div class="field-label">Product Category</div>
       <div class="chip-group" id="group-interest">
-        <span class="chip" data-group="interest" data-value="skincare and beauty products">Skincare</span>
-        <span class="chip" data-group="interest" data-value="wellness supplements and superfoods">Wellness</span>
-        <span class="chip" data-group="interest" data-value="healthy food and functional nutrition">Healthy Food</span>
-        <span class="chip" data-group="interest" data-value="lifestyle and home wellness products">Lifestyle</span>
+        <span class="chip" data-group="interest" data-value="wine and fine beverages">🍷 Wine</span>
+        <span class="chip" data-group="interest" data-value="skincare and beauty products">💆 Skincare</span>
+        <span class="chip" data-group="interest" data-value="wellness supplements and superfoods">🌿 Wellness</span>
+        <span class="chip" data-group="interest" data-value="healthy food and functional nutrition">🥗 Healthy Food</span>
+        <span class="chip" data-group="interest" data-value="lifestyle and home wellness products">✨ Lifestyle</span>
       </div>
     </div>
 
@@ -523,7 +524,7 @@
       ? 'Write the customer message in Thai (ภาษาไทย). All other fields in English.'
       : 'Write everything in English.';
 
-    const prompt = `You are an AI Commerce engine for Sukkaii — a premium Thai wellness lifestyle brand. Generate a personalized offer for the following customer profile:
+    const prompt = `You are an AI Commerce engine for a premium brand. Generate a personalized offer for the following customer profile. Adapt your tone naturally to the product category — wine should feel sophisticated and convivial, skincare should feel aspirational and caring, wellness should feel knowledgeable and nurturing, food should feel warm and nourishing, lifestyle should feel modern and considered.
 
 - Order history: ${selections.history}
 - Last activity: ${selections.activity}
