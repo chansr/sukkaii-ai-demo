@@ -1,0 +1,21 @@
+{
+  "name": "Sukkaii AI Commerce",
+  "short_name": "Sukkaii AI",
+  "description": "AI Commerce demos by Sukkaii",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f4ef",
+  "theme_color": "#f7f4ef",
+  "icons": [
+    {
+      "src": "https://sukkaii.b-cdn.net/_sukkaii_ai_assets/sukkaii-ai-favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://sukkaii.b-cdn.net/_sukkaii_ai_assets/sukkaii-ai-favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
