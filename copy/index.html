@@ -335,9 +335,13 @@
     cursor: pointer;
     transition: all 0.15s;
     letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
   }
   .action-btn:hover { border-color: var(--sage-mid); color: var(--sage); background: var(--sage-light); }
   .action-btn.copied { border-color: var(--sage); color: var(--sage); background: var(--sage-light); }
+  .action-btn svg { flex-shrink: 0; }
 
   .result-copy {
     font-family: 'DM Sans', sans-serif;
@@ -510,7 +514,15 @@
         <div class="result-meta">
           <span class="result-product-name" id="result-product-label"></span>
           <div class="result-actions">
-            <button class="action-btn" id="copy-btn" onclick="copyText()">Copy</button>
+            <button class="action-btn" id="copy-btn" onclick="copyText()">
+              <svg id="copy-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <svg id="check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span id="copy-label">Copy</span>
+            </button>
             <button class="action-btn" onclick="generate()">Regenerate</button>
           </div>
         </div>
@@ -616,6 +628,11 @@ Do not include any markdown formatting, headers, or labels. Output the copy dire
       resultCopy.textContent = fullText;
       resultTags.style.display = 'flex';
 
+      // Smooth scroll to result
+      setTimeout(() => {
+        resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+
     } catch (err) {
       resultCopy.textContent = '';
       errorMsg.classList.add('visible');
@@ -630,10 +647,17 @@ Do not include any markdown formatting, headers, or labels. Output the copy dire
     if (!fullText) return;
     navigator.clipboard.writeText(fullText).then(() => {
       const copyBtn = document.getElementById('copy-btn');
-      copyBtn.textContent = 'Copied ✓';
+      const copyIcon = document.getElementById('copy-icon');
+      const checkIcon = document.getElementById('check-icon');
+      const copyLabel = document.getElementById('copy-label');
+      copyIcon.style.display = 'none';
+      checkIcon.style.display = 'inline';
+      copyLabel.textContent = 'Copied';
       copyBtn.classList.add('copied');
       setTimeout(() => {
-        copyBtn.textContent = 'Copy';
+        copyIcon.style.display = 'inline';
+        checkIcon.style.display = 'none';
+        copyLabel.textContent = 'Copy';
         copyBtn.classList.remove('copied');
       }, 2000);
     }).catch(() => {});
