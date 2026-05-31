@@ -38,15 +38,45 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* ── SHARED HEADER ── */
+  .site-header {
+    padding: 1.1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--cream-dark);
+    animation: fadeDown 0.5s ease both;
+  }
+
+  .header-logo-link {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .header-logo {
+    height: 30px;
+    width: auto;
+  }
+
+  .header-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    border: 1px solid var(--sage-mid);
+    padding: 4px 12px;
+    border-radius: 99px;
+  }
+
   /* ── HERO ── */
   .hero-wrap {
-    min-height: 100svh;
+    min-height: calc(100svh - 61px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem 2rem 4rem;
+    padding: 3rem 2rem 5rem;
     position: relative;
   }
 
@@ -57,15 +87,6 @@
     width: 1px;
     height: 60px;
     background: linear-gradient(to bottom, var(--cream-dark), transparent);
-  }
-
-  .logo {
-    height: 52px;
-    width: auto;
-    margin-bottom: 1.5rem;
-    opacity: 0;
-    animation: fadeUp 0.7s 0.1s ease forwards;
-    mix-blend-mode: multiply;
   }
 
   .eyebrow {
@@ -79,7 +100,7 @@
     gap: 10px;
     justify-content: center;
     opacity: 0;
-    animation: fadeUp 0.7s 0.2s ease forwards;
+    animation: fadeUp 0.7s 0.1s ease forwards;
   }
   .eyebrow::before, .eyebrow::after {
     content: '';
@@ -98,7 +119,7 @@
     max-width: 720px;
     margin-bottom: 2rem;
     opacity: 0;
-    animation: fadeUp 0.7s 0.3s ease forwards;
+    animation: fadeUp 0.7s 0.2s ease forwards;
   }
   .headline em {
     font-style: italic;
@@ -112,13 +133,10 @@
     max-width: 540px;
     margin-bottom: 2.75rem;
     opacity: 0;
-    animation: fadeUp 0.7s 0.4s ease forwards;
+    animation: fadeUp 0.7s 0.3s ease forwards;
   }
   .subhead p + p { margin-top: 0.5rem; }
-  .subhead strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
+  .subhead strong { color: var(--ink); font-weight: 600; }
 
   .cta-btn {
     display: inline-flex;
@@ -138,7 +156,7 @@
     text-decoration: none;
     transition: background 0.2s, transform 0.15s;
     opacity: 0;
-    animation: fadeUp 0.7s 0.5s ease forwards;
+    animation: fadeUp 0.7s 0.4s ease forwards;
   }
   .cta-btn:hover { background: #2d5340; transform: translateY(-1px); }
   .cta-btn:active { transform: scale(0.98); }
@@ -160,7 +178,7 @@
     font-size: 0.65rem;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--ink-light);
+    color: var(--ink-mid);
     margin-bottom: 0.75rem;
   }
   .section-title {
@@ -204,10 +222,7 @@
     transform: translateY(-2px);
   }
 
-  .demo-card-icon {
-    font-size: 1.5rem;
-    line-height: 1;
-  }
+  .demo-card-icon { font-size: 1.5rem; line-height: 1; }
   .demo-card-label {
     font-size: 0.65rem;
     letter-spacing: 0.14em;
@@ -223,7 +238,7 @@
     line-height: 1.3;
   }
   .demo-card-desc {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     color: var(--ink-mid);
     line-height: 1.7;
     flex: 1;
@@ -239,20 +254,11 @@
     gap: 6px;
     margin-top: 0.5rem;
   }
-  .demo-card-link::after {
-    content: '→';
-    transition: transform 0.2s;
-  }
+  .demo-card-link::after { content: '→'; transition: transform 0.2s; }
   .demo-card:hover .demo-card-link::after { transform: translateX(4px); }
 
-  /* Coming soon card */
-  .demo-card.coming-soon {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  .demo-card.coming-soon::before {
-    background: var(--cream-dark);
-  }
+  .demo-card.coming-soon { opacity: 0.45; pointer-events: none; }
+  .demo-card.coming-soon::before { background: var(--cream-dark); }
   .coming-badge {
     font-size: 0.62rem;
     letter-spacing: 0.1em;
@@ -290,25 +296,31 @@
     from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 540px) {
-    .hero-wrap { padding: 3rem 1.5rem 4.5rem; }
-    .logo { height: 40px; margin-bottom: 3rem; }
+    .site-header { padding: 1rem 1.5rem; }
+    .hero-wrap { padding: 2.5rem 1.5rem 4rem; }
     .demos-section { padding: 4rem 1.5rem 5rem; }
   }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
+<header class="site-header">
+  <a class="header-logo-link" href="/">
+    <img class="header-logo" src="https://sukkaii.b-cdn.net/_sukkaii_ai_assets/sukkaii-ai-logo-transparent.png" alt="Sukkaii AI Commerce" />
+  </a>
+  <span class="header-badge">AI Commerce</span>
+</header>
+
 <!-- HERO -->
 <section class="hero-wrap">
-  <img
-    class="logo"
-    src="https://sukkaii.b-cdn.net/_sukkaii_ai_assets/sukkaiiai_logo.png"
-    alt="Sukkaii AI Commerce"
-  />
-
   <div class="eyebrow">AI Commerce</div>
 
   <h1 class="headline">
@@ -337,16 +349,14 @@
 
   <div class="demos-grid">
 
-    <!-- AI Copywriter -->
     <a class="demo-card" href="/copy/">
       <div class="demo-card-icon">✍️</div>
       <div class="demo-card-label">Content AI</div>
       <div class="demo-card-title">AI Product Copywriter</div>
-      <div class="demo-card-desc">Generate SEO-ready wellness product descriptions in English, Thai, or both — instantly, in your brand's voice.</div>
+      <div class="demo-card-desc">Generate SEO-ready product descriptions in English, Thai, or both — instantly, in your brand's voice.</div>
       <div class="demo-card-link">Try it live</div>
     </a>
 
-    <!-- Coming Soon 1 -->
     <div class="demo-card coming-soon">
       <div class="coming-badge">Coming Soon</div>
       <div class="demo-card-label">Customer AI</div>
@@ -354,7 +364,6 @@
       <div class="demo-card-desc">AI that understands customer messages, parses orders, and routes them — without manual review.</div>
     </div>
 
-    <!-- Coming Soon 2 -->
     <div class="demo-card coming-soon">
       <div class="coming-badge">Coming Soon</div>
       <div class="demo-card-label">Analytics AI</div>
@@ -372,7 +381,6 @@
 </footer>
 
 <script>
-  // Smooth scroll for CTA
   document.querySelector('.cta-btn').addEventListener('click', function(e) {
     const target = document.querySelector('#demos');
     if (target) {
