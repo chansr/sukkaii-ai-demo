@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Sukkaii" />
+<link rel="apple-touch-icon" href="/icon.png" />
+<title>Sukkaii — AI Copy Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage: #3d6b52;
+    --sage-light: #e8f0eb;
+    --sage-mid: #8fb89e;
+    --cream: #f7f4ef;
+    --cream-dark: #ede9e1;
+    --ink: #1a1a18;
+    --ink-mid: #4a4a45;
+    --ink-light: #8a8a82;
+    --gold: #c5a455;
+    --gold-light: #f0e4c4;
+    --white: #ffffff;
+    --radius: 2px;
+    --radius-lg: 8px;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── HEADER ── */
+  header {
+    padding: 2.5rem 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--cream-dark);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .logo-group { display: flex; align-items: baseline; gap: 10px; }
+  .logo-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .logo-pipe { color: var(--cream-dark); font-weight: 300; }
+  .logo-sub {
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  .header-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage);
+    border: 1px solid var(--sage-mid);
+    padding: 4px 10px;
+    border-radius: 99px;
+    opacity: 0.8;
+  }
+
+  /* ── MAIN ── */
+  main {
+    padding: 3rem 0 2rem;
+    display: grid;
+    gap: 2.5rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  /* ── HERO TEXT ── */
+  .hero { max-width: 540px; }
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--sage);
+  }
+  .hero p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--ink-mid);
+    line-height: 1.7;
+    max-width: 420px;
+  }
+
+  /* ── INPUT SECTION ── */
+  .input-section {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .input-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .product-input {
+    flex: 1;
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: var(--radius);
+    padding: 0.85rem 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .product-input::placeholder { color: var(--ink-light); }
+  .product-input:focus { border-color: var(--sage-mid); }
+
+  .gen-btn {
+    background: var(--sage);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.85rem 1.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .gen-btn:hover { background: #2d5340; }
+  .gen-btn:active { transform: scale(0.98); }
+  .gen-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .spinner {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .gen-btn.loading .spinner { display: block; }
+  .gen-btn.loading .btn-text { opacity: 0.7; }
+
+  /* ── CHIPS ── */
+  .chips-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.5rem; }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    font-size: 0.78rem;
+    padding: 5px 12px;
+    border: 1px solid var(--cream-dark);
+    border-radius: 99px;
+    color: var(--ink-mid);
+    cursor: pointer;
+    background: var(--white);
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+  }
+  .chip:hover {
+    border-color: var(--sage-mid);
+    color: var(--sage);
+    background: var(--sage-light);
+  }
+
+  /* ── LANGUAGE TOGGLE ── */
+  .lang-group {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--cream-dark);
+    border-radius: 99px;
+    width: fit-content;
+    overflow: hidden;
+    background: var(--white);
+  }
+  .lang-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    padding: 6px 16px;
+    border: none;
+    background: transparent;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .lang-btn.active {
+    background: var(--sage);
+    color: var(--white);
+    border-radius: 99px;
+  }
+  .lang-btn:hover:not(.active) { color: var(--ink); }
+
+  /* ── CONTROLS ROW ── */
+  .controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ── RESULT ── */
+  .result-section { display: none; }
+  .result-section.visible { display: block; animation: fadeUp 0.4s ease both; }
+
+  .result-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .result-divider::before, .result-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--cream-dark);
+  }
+  .result-divider-text {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  .result-card {
+    background: var(--white);
+    border: 1px solid var(--cream-dark);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: relative;
+  }
+  .result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sage) 0%, var(--gold) 100%);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .result-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .result-product-name {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 400;
+  }
+  .result-actions { display: flex; gap: 6px; }
+  .action-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    padding: 5px 12px;
+    border: 1px solid var(--cream-dark);
+    border-radius: 99px;
+    background: transparent;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .action-btn:hover { border-color: var(--sage-mid); color: var(--sage); background: var(--sage-light); }
+  .action-btn.copied { border-color: var(--sage); color: var(--sage); background: var(--sage-light); }
+
+  .result-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--ink);
+    font-weight: 300;
+    white-space: pre-wrap;
+  }
+  .result-copy.streaming::after {
+    content: '|';
+    animation: blink 0.7s step-end infinite;
+    color: var(--sage);
+    font-weight: 400;
+  }
+
+  .result-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--cream-dark);
+    flex-wrap: wrap;
+  }
+  .result-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background: var(--sage-light);
+    color: var(--sage);
+    font-weight: 400;
+  }
+  .result-tag.gold { background: var(--gold-light); color: #8a6a20; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 1.5rem 0 2rem;
+    border-top: 1px solid var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .footer-left {
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    letter-spacing: 0.04em;
+  }
+  .footer-left strong {
+    font-weight: 500;
+    color: var(--ink-mid);
+  }
+  .footer-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--sage);
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .footer-right {
+    font-size: 0.68rem;
+    color: var(--ink-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── ERROR ── */
+  .error-msg {
+    font-size: 0.85rem;
+    color: #a33;
+    padding: 0.75rem 1rem;
+    background: #fdf0f0;
+    border-radius: var(--radius);
+    border: 1px solid #f0cccc;
+    margin-top: 0.5rem;
+    display: none;
+  }
+  .error-msg.visible { display: block; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 540px) {
+    .page { padding: 0 1.25rem; }
+    .controls-row { flex-direction: column; align-items: flex-start; }
+    .input-row { flex-direction: column; }
+    .gen-btn { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-group">
+      <span class="logo-name">Sukkaii</span>
+      <span class="logo-pipe">—</span>
+      <span class="logo-sub">AI Commerce</span>
+    </div>
+    <span class="header-badge">Copy Studio</span>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">AI Product Copywriter</div>
+      <h1>Write <em>beautiful</em><br>wellness copy, instantly.</h1>
+      <p>Enter any wellness product and watch AI craft SEO-ready descriptions in English, Thai, or both — in your brand's voice.</p>
+    </div>
+
+    <!-- INPUT -->
+    <div class="input-section">
+      <div class="input-label">Product name</div>
+      <div class="input-row">
+        <input
+          class="product-input"
+          id="product-input"
+          type="text"
+          placeholder="e.g. Organic Moringa Powder"
+          onkeydown="if(event.key==='Enter') generate()"
+        />
+        <button class="gen-btn" id="gen-btn" onclick="generate()">
+          <div class="spinner" id="spinner"></div>
+          <span class="btn-text" id="btn-text">Generate copy</span>
+        </button>
+      </div>
+      <div class="error-msg" id="error-msg">Unable to connect. Please check your connection and try again.</div>
+
+      <!-- QUICK PICKS -->
+      <div>
+        <div class="chips-label">Quick picks</div>
+        <div class="chips">
+          <span class="chip" onclick="setProduct('Organic Moringa Powder')">Organic Moringa Powder</span>
+          <span class="chip" onclick="setProduct('Lion\'s Mane Mushroom Extract')">Lion's Mane Extract</span>
+          <span class="chip" onclick="setProduct('Cold-Pressed Rosehip Oil')">Cold-Pressed Rosehip Oil</span>
+          <span class="chip" onclick="setProduct('Fermented Black Garlic')">Fermented Black Garlic</span>
+          <span class="chip" onclick="setProduct('Ashwagandha Adaptogen Blend')">Ashwagandha Blend</span>
+          <span class="chip" onclick="setProduct('Raw Manuka Honey')">Raw Manuka Honey</span>
+          <span class="chip" onclick="setProduct('Ceremonial Grade Matcha')">Ceremonial Matcha</span>
+        </div>
+      </div>
+
+      <!-- LANGUAGE -->
+      <div class="controls-row">
+        <div>
+          <div class="chips-label" style="margin-bottom:0.5rem;">Output language</div>
+          <div class="lang-group">
+            <button class="lang-btn active" id="lang-en" onclick="setLang('en')">English</button>
+            <button class="lang-btn" id="lang-th" onclick="setLang('th')">ภาษาไทย</button>
+            <button class="lang-btn" id="lang-both" onclick="setLang('both')">Both</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-section" id="result-section">
+      <div class="result-divider">
+        <span class="result-divider-text">Generated copy</span>
+      </div>
+      <div class="result-card">
+        <div class="result-meta">
+          <span class="result-product-name" id="result-product-label"></span>
+          <div class="result-actions">
+            <button class="action-btn" id="copy-btn" onclick="copyText()">Copy</button>
+            <button class="action-btn" onclick="generate()">Regenerate</button>
+          </div>
+        </div>
+        <div class="result-copy" id="result-copy"></div>
+        <div class="result-tags" id="result-tags" style="display:none;">
+          <span class="result-tag">SEO Ready</span>
+          <span class="result-tag">Wellness Tone</span>
+          <span class="result-tag gold">E-commerce</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <span class="footer-dot"></span>
+      Powered by <strong>Sukkaii AI</strong> · sukkaii.com
+    </div>
+    <div class="footer-right">AI Commerce Studio</div>
+  </footer>
+
+</div>
+
+<script>
+  let lang = 'en';
+  let fullText = '';
+
+  function setLang(l) {
+    lang = l;
+    ['en','th','both'].forEach(x => {
+      document.getElementById('lang-' + x).classList.toggle('active', x === l);
+    });
+  }
+
+  function setProduct(name) {
+    document.getElementById('product-input').value = name;
+    document.getElementById('product-input').focus();
+  }
+
+  async function generate() {
+    const product = document.getElementById('product-input').value.trim();
+    if (!product) {
+      document.getElementById('product-input').focus();
+      return;
+    }
+
+    const btn = document.getElementById('gen-btn');
+    const spinner = document.getElementById('spinner');
+    const btnText = document.getElementById('btn-text');
+    const resultSection = document.getElementById('result-section');
+    const resultCopy = document.getElementById('result-copy');
+    const resultLabel = document.getElementById('result-product-label');
+    const resultTags = document.getElementById('result-tags');
+    const errorMsg = document.getElementById('error-msg');
+
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btnText.textContent = 'Writing...';
+    errorMsg.classList.remove('visible');
+
+    resultSection.classList.add('visible');
+    resultLabel.textContent = product;
+    resultCopy.className = 'result-copy streaming';
+    resultCopy.textContent = '';
+    resultTags.style.display = 'none';
+    fullText = '';
+
+    const langInstr = lang === 'en'
+      ? 'Write only in English.'
+      : lang === 'th'
+      ? 'Write entirely in Thai (ภาษาไทย). All text including the headline and bullets must be in Thai.'
+      : 'Write first in English, then add a Thai (ภาษาไทย) translation below separated by "—— Thai ——". Both versions must be complete.';
+
+    const prompt = `You are a premium wellness copywriter for Sukkaii — a sophisticated Thai wellness food and lifestyle brand. Write compelling e-commerce product copy for: "${product}".
+
+${langInstr}
+
+Structure:
+• A short, evocative headline (5–9 words, no punctuation)
+• Two focused paragraphs (2–3 sentences each): first covers benefits and science, second covers origin, quality, and lifestyle fit
+• Three bullet benefits, each starting with a tasteful botanical emoji and a bold keyword
+
+Tone: Warm, aspirational, knowledgeable. Like a trusted wellness expert, not a salesperson. No hype, no exclamation marks. Elegant and trustworthy.
+
+Do not include any markdown formatting, headers, or labels. Output the copy directly.`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          stream: true,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      if (!response.ok) throw new Error('API error');
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            const data = line.slice(6).trim();
+            if (data === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+                fullText += parsed.delta.text;
+                resultCopy.textContent = fullText;
+              }
+            } catch {}
+          }
+        }
+      }
+
+      resultCopy.className = 'result-copy';
+      resultTags.style.display = 'flex';
+
+    } catch (err) {
+      resultCopy.className = 'result-copy';
+      resultCopy.textContent = '';
+      errorMsg.classList.add('visible');
+    }
+
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btnText.textContent = 'Generate copy';
+  }
+
+  function copyText() {
+    if (!fullText) return;
+    navigator.clipboard.writeText(fullText).then(() => {
+      const copyBtn = document.getElementById('copy-btn');
+      copyBtn.textContent = 'Copied ✓';
+      copyBtn.classList.add('copied');
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy';
+        copyBtn.classList.remove('copied');
+      }, 2000);
+    }).catch(() => {});
+  }
+</script>
+</body>
+</html>
